@@ -12,10 +12,11 @@ import { Button } from "@/components/ui/button";
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: { category?: string };
+  searchParams: Promise<{ category?: string }>;
 }) {
   const supabase = await createClient();
-  const categorySlug = searchParams.category;
+  const resolvedSearchParams = await searchParams;
+  const categorySlug = resolvedSearchParams.category;
 
   // 카테고리 목록 가져오기
   const { data: categories } = await supabase

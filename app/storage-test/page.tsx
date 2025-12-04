@@ -54,7 +54,6 @@ export default function StorageTestPage() {
       if (error) {
         console.error("Storage error details:", {
           message: error.message,
-          statusCode: error.statusCode,
           error: error,
         });
         throw error;
@@ -70,7 +69,7 @@ export default function StorageTestPage() {
       }
       
       // Storage 버킷이 존재하지 않는 경우에 대한 안내
-      if (err?.statusCode === 404 || err?.message?.includes("not found") || err?.message?.includes("does not exist")) {
+      if (err?.message?.includes("not found") || err?.message?.includes("does not exist") || err?.message?.includes("Bucket not found")) {
         errorMessage = `Storage 버킷 "${STORAGE_BUCKET}"이(가) 존재하지 않습니다. Supabase Dashboard에서 버킷을 생성해주세요.`;
       }
       
@@ -119,7 +118,6 @@ export default function StorageTestPage() {
       if (uploadError) {
         console.error("Upload error details:", {
           message: uploadError.message,
-          statusCode: uploadError.statusCode,
           error: uploadError,
         });
         throw uploadError;
@@ -140,7 +138,7 @@ export default function StorageTestPage() {
       }
       
       // Storage 버킷이 존재하지 않는 경우에 대한 안내
-      if (err?.statusCode === 404 || err?.message?.includes("not found") || err?.message?.includes("does not exist")) {
+      if (err?.message?.includes("not found") || err?.message?.includes("does not exist") || err?.message?.includes("Bucket not found")) {
         errorMessage = `Storage 버킷 "${STORAGE_BUCKET}"이(가) 존재하지 않습니다. Supabase Dashboard에서 버킷을 생성해주세요.`;
       }
       
@@ -272,7 +270,7 @@ export default function StorageTestPage() {
                 </p>
                 <ol className="text-xs text-red-800 list-decimal list-inside space-y-1">
                   <li>Supabase Dashboard → Storage 메뉴로 이동</li>
-                  <li>"New bucket" 클릭</li>
+                  <li>&quot;New bucket&quot; 클릭</li>
                   <li>버킷 이름: <code className="bg-red-200 px-1 rounded">{STORAGE_BUCKET}</code></li>
                   <li>또는 SQL Editor에서 <code className="bg-red-200 px-1 rounded">supabase/migrations/setup_storage.sql</code> 파일 실행</li>
                 </ol>

@@ -10,7 +10,6 @@
  */
 
 import { koKR } from "@clerk/localizations";
-import type { LocalizationResource } from "@clerk/types";
 
 /**
  * 기본 한국어 로컬라이제이션
@@ -34,7 +33,7 @@ export const defaultKoreanLocalization = koKR;
  * </ClerkProvider>
  * ```
  */
-export const customKoreanLocalization: LocalizationResource = {
+export const customKoreanLocalization = {
   ...koKR,
   // 커스텀 에러 메시지 추가 예시
   unstable__errors: {
@@ -44,7 +43,7 @@ export const customKoreanLocalization: LocalizationResource = {
   },
   // 다른 커스텀 메시지를 여기에 추가할 수 있습니다
   // 예: formFieldLabel__emailAddress: '이메일 주소',
-};
+} as typeof koKR;
 
 /**
  * 현재 사용 중인 로컬라이제이션
