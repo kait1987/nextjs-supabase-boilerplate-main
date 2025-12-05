@@ -104,7 +104,7 @@ export default function OrderDetailPage() {
       cancelled: { text: "취소됨", color: "text-red-600" },
       completed: { text: "완료", color: "text-blue-600" },
     };
-    return labels[status] || { text: status, color: "text-gray-600" };
+    return labels[status] || { text: status, color: "text-muted-foreground" };
   };
 
   if (!isSignedIn) {
@@ -141,11 +141,11 @@ export default function OrderDetailPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center py-16">
-          <Package className="h-24 w-24 mx-auto text-gray-300 mb-4" />
+          <Package className="h-24 w-24 mx-auto text-muted-foreground mb-4" />
           <p className="text-red-500 text-xl mb-2">
             {error || "주문을 찾을 수 없습니다."}
           </p>
-          <p className="text-gray-400 text-sm mb-6">
+          <p className="text-muted-foreground text-sm mb-6">
             주문이 존재하지 않거나 접근 권한이 없습니다.
           </p>
           <div className="flex gap-4 justify-center">
@@ -178,7 +178,7 @@ export default function OrderDetailPage() {
           <ArrowLeft className="h-4 w-4" />
           주문 내역으로 돌아가기
         </Link>
-        <h1 className="text-4xl font-bold">주문 상세</h1>
+        <h1 className="text-4xl font-bold text-foreground">주문 상세</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -186,26 +186,26 @@ export default function OrderDetailPage() {
         <div className="lg:col-span-2 space-y-6">
           {/* 주문 기본 정보 */}
           <div className="border rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-4">주문 정보</h2>
+            <h2 className="text-xl font-bold mb-4 text-foreground">주문 정보</h2>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-600">주문 번호</span>
-                <span className="font-semibold">{order.order_number}</span>
+                <span className="text-muted-foreground">주문 번호</span>
+                <span className="font-semibold text-foreground">{order.order_number}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">주문 일시</span>
-                <span>{formatDateTime(order.created_at)}</span>
+                <span className="text-muted-foreground">주문 일시</span>
+                <span className="text-foreground">{formatDateTime(order.created_at)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">주문 상태</span>
+                <span className="text-muted-foreground">주문 상태</span>
                 <span className={`font-semibold ${status.color}`}>
                   {status.text}
                 </span>
               </div>
               {order.payment_method && (
                 <div className="flex justify-between">
-                  <span className="text-gray-600">결제 수단</span>
-                  <span>{order.payment_method}</span>
+                  <span className="text-muted-foreground">결제 수단</span>
+                  <span className="text-foreground">{order.payment_method}</span>
                 </div>
               )}
             </div>
@@ -214,22 +214,22 @@ export default function OrderDetailPage() {
           {/* 배송 정보 */}
           {order.shipping_name && (
             <div className="border rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">배송 정보</h2>
+              <h2 className="text-xl font-bold mb-4 text-foreground">배송 정보</h2>
               <div className="space-y-2 text-sm">
                 <div>
-                  <span className="text-gray-600">수령인: </span>
-                  <span>{order.shipping_name}</span>
+                  <span className="text-muted-foreground">수령인: </span>
+                  <span className="text-foreground">{order.shipping_name}</span>
                 </div>
                 {order.shipping_phone && (
                   <div>
-                    <span className="text-gray-600">전화번호: </span>
-                    <span>{order.shipping_phone}</span>
+                    <span className="text-muted-foreground">전화번호: </span>
+                    <span className="text-foreground">{order.shipping_phone}</span>
                   </div>
                 )}
                 {order.shipping_address && (
                   <div>
-                    <span className="text-gray-600">배송 주소: </span>
-                    <span>{order.shipping_address}</span>
+                    <span className="text-muted-foreground">배송 주소: </span>
+                    <span className="text-foreground">{order.shipping_address}</span>
                   </div>
                 )}
               </div>
@@ -238,7 +238,7 @@ export default function OrderDetailPage() {
 
           {/* 주문 상품 목록 */}
           <div className="border rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-4">주문 상품</h2>
+            <h2 className="text-xl font-bold mb-4 text-foreground">주문 상품</h2>
             <div className="space-y-4">
               {order.order_items.map((item) => {
                 const orderItem = item as OrderItemWithImage;
@@ -248,9 +248,9 @@ export default function OrderDetailPage() {
                     href={`/products/${item.product_id}`}
                     className="block"
                   >
-                    <div className="flex gap-4 items-center py-4 border-b last:border-0 hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors">
+                    <div className="flex gap-4 items-center py-4 border-b last:border-0 hover:bg-muted rounded-lg p-2 -m-2 transition-colors">
                       {/* 상품 이미지 */}
-                      <div className="w-20 h-20 bg-gray-100 rounded relative overflow-hidden flex-shrink-0">
+                      <div className="w-20 h-20 bg-muted rounded relative overflow-hidden flex-shrink-0">
                         {orderItem.product_image_url ? (
                           <Image
                             src={orderItem.product_image_url}
@@ -260,7 +260,7 @@ export default function OrderDetailPage() {
                             sizes="80px"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">
                             이미지 없음
                           </div>
                         )}
@@ -271,7 +271,7 @@ export default function OrderDetailPage() {
                         <p className="font-semibold text-base mb-1 hover:text-primary transition-colors">
                           {item.product_name}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-muted-foreground">
                           {formatPrice(item.product_price)} × {item.quantity}개
                         </p>
                       </div>
@@ -293,15 +293,15 @@ export default function OrderDetailPage() {
         {/* 결제 요약 */}
         <div className="lg:col-span-1">
           <div className="border rounded-lg p-6 sticky top-4">
-            <h2 className="text-xl font-bold mb-4">결제 요약</h2>
+            <h2 className="text-xl font-bold mb-4 text-foreground">결제 요약</h2>
             <div className="space-y-2 mb-4">
-              <div className="flex justify-between text-gray-600">
+              <div className="flex justify-between text-muted-foreground">
                 <span>상품 금액</span>
-                <span>{formatPrice(order.total_amount)}</span>
+                <span className="text-foreground">{formatPrice(order.total_amount)}</span>
               </div>
-              <div className="flex justify-between text-gray-600">
+              <div className="flex justify-between text-muted-foreground">
                 <span>배송비</span>
-                <span>무료</span>
+                <span className="text-foreground">무료</span>
               </div>
               <div className="border-t pt-2 flex justify-between text-lg font-bold">
                 <span>총 결제금액</span>

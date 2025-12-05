@@ -52,6 +52,7 @@ export function ProductSort({ currentSort }: ProductSortProps) {
         id="sort"
         value={currentSort}
         onChange={(e) => handleSortChange(e.target.value)}
+        aria-label="상품 정렬 선택"
         className={cn(
           "h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",

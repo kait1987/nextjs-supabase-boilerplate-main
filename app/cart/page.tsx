@@ -124,9 +124,9 @@ export default function CartPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center py-12">
-          <ShoppingCart className="h-24 w-24 mx-auto text-gray-300 mb-4" />
+          <ShoppingCart className="h-24 w-24 mx-auto text-muted-foreground mb-4" />
           <p className="text-red-500 text-lg mb-2">{error}</p>
-          <p className="text-gray-400 text-sm mb-6">
+          <p className="text-muted-foreground text-sm mb-6">
             장바구니를 불러오는데 문제가 발생했습니다.
           </p>
           <div className="flex gap-4 justify-center">
@@ -147,8 +147,8 @@ export default function CartPage() {
 
       {cartItems.length === 0 ? (
         <div className="text-center py-12">
-          <ShoppingCart className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-          <p className="text-gray-500 text-lg mb-4">장바구니가 비어있습니다.</p>
+          <ShoppingCart className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+          <p className="text-muted-foreground text-lg mb-4">장바구니가 비어있습니다.</p>
           <Link href="/products">
             <Button>상품 보러가기</Button>
           </Link>
@@ -172,7 +172,7 @@ export default function CartPage() {
                         className="object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">
+                      <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">
                         이미지 없음
                       </div>
                     )}
@@ -209,7 +209,7 @@ export default function CartPage() {
                         <Plus className="h-4 w-4" />
                       </Button>
                     </div>
-                    <p className="text-gray-600">
+                    <p className="text-muted-foreground">
                       소계: {formatPrice(item.product.price * item.quantity)}
                     </p>
                   </div>
@@ -231,11 +231,11 @@ export default function CartPage() {
             <div className="border rounded-lg p-6 sticky top-4">
               <h2 className="text-xl font-bold mb-4">주문 요약</h2>
               <div className="space-y-2 mb-4">
-                <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between text-muted-foreground">
                   <span>상품 금액</span>
                   <span>{formatPrice(totalAmount)}</span>
                 </div>
-                <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between text-muted-foreground">
                   <span>배송비</span>
                   <span>무료</span>
                 </div>

@@ -12,24 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { CartItemWithProduct } from "@/types/database";
 import { createOrder } from "@/app/actions/orders";
-
-// 배송 정보 검증 스키마
-const shippingInfoSchema = z.object({
-  shippingName: z
-    .string()
-    .min(2, "이름은 2자 이상 입력해주세요.")
-    .max(50, "이름은 50자 이하로 입력해주세요.")
-    .regex(/^[가-힣a-zA-Z\s]+$/, "이름은 한글 또는 영문만 입력 가능합니다."),
-  shippingPhone: z
-    .string()
-    .min(10, "전화번호를 올바르게 입력해주세요.")
-    .max(15, "전화번호는 15자 이하로 입력해주세요.")
-    .regex(/^[0-9-]+$/, "전화번호는 숫자와 하이픈(-)만 입력 가능합니다."),
-  shippingAddress: z
-    .string()
-    .min(10, "배송 주소를 상세히 입력해주세요.")
-    .max(200, "배송 주소는 200자 이하로 입력해주세요."),
-});
+import { shippingInfoSchema } from "@/lib/validations/schemas";
 
 type ShippingInfoFormData = z.infer<typeof shippingInfoSchema>;
 

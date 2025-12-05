@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart, User } from "lucide-react";
 import { CartSidebar } from "@/components/cart/cart-sidebar";
 import { useCartCount } from "@/hooks/use-cart-count";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -28,13 +29,9 @@ const Navbar = () => {
     setIsCartHidden(true); // 사용자가 숨김
   };
 
-  const handleToggleCart = () => {
-    if (isCartHidden) {
-      setIsCartHidden(false);
-      setIsCartOpen(true);
-    } else {
-      setIsCartOpen(!isCartOpen);
-    }
+  const handleOpenCart = () => {
+    setIsCartHidden(false);
+    setIsCartOpen(true);
   };
 
   return (
@@ -42,33 +39,36 @@ const Navbar = () => {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-2xl font-bold">
+            <Link href="/" className="text-2xl font-bold" aria-label="홈페이지로 이동">
               의류 쇼핑몰
             </Link>
-            <nav className="hidden md:flex gap-6">
+            <nav className="hidden md:flex gap-6" aria-label="주요 네비게이션">
               <Link
                 href="/products"
                 className="text-sm font-medium transition-colors hover:text-primary"
+                aria-label="상품 목록 페이지로 이동"
               >
                 상품
               </Link>
               <Link
                 href="/categories"
                 className="text-sm font-medium transition-colors hover:text-primary"
+                aria-label="카테고리 목록 페이지로 이동"
               >
                 카테고리
               </Link>
             </nav>
           </div>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <SignedIn>
               {cartCount > 0 && (
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={handleToggleCart}
+                  onClick={handleOpenCart}
                   className="relative"
-                  title={isCartOpen ? "장바구니 숨기기" : "장바구니 보기"}
+                  title="장바구니 보기"
                 >
                   <ShoppingCart className="h-5 w-5" />
                   <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
@@ -85,8 +85,8 @@ const Navbar = () => {
                   </Button>
                 </Link>
               )}
-              <Link href="/my">
-                <Button variant="ghost" size="icon">
+              <Link href="/my" aria-label="마이페이지로 이동">
+                <Button variant="ghost" size="icon" aria-label="마이페이지">
                   <User className="h-5 w-5" />
                   <span className="sr-only">마이페이지</span>
                 </Button>

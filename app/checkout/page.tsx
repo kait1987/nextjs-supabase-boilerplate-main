@@ -98,7 +98,7 @@ export default function CheckoutPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center py-12">
           <p className="text-red-500 text-lg mb-2">{error}</p>
-          <p className="text-gray-400 text-sm mb-6">
+          <p className="text-muted-foreground text-sm mb-6">
             장바구니 페이지로 이동합니다...
           </p>
           <Button onClick={() => router.push("/cart")}>장바구니로 이동</Button>
@@ -111,7 +111,7 @@ export default function CheckoutPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg mb-4">장바구니가 비어있습니다.</p>
+          <p className="text-muted-foreground text-lg mb-4">장바구니가 비어있습니다.</p>
           <Button onClick={() => router.push("/cart")}>장바구니로 이동</Button>
         </div>
       </div>
@@ -139,7 +139,7 @@ export default function CheckoutPage() {
             <div className="space-y-4 mb-4">
               {cartItems.map((item) => (
                 <div key={item.id} className="flex justify-between text-sm">
-                  <span className="text-gray-600">
+                  <span className="text-muted-foreground">
                     {item.product.name} × {item.quantity}
                   </span>
                   <span>{formatPrice(item.product.price * item.quantity)}</span>
@@ -147,11 +147,11 @@ export default function CheckoutPage() {
               ))}
             </div>
             <div className="border-t pt-4 space-y-2">
-              <div className="flex justify-between text-gray-600">
+              <div className="flex justify-between text-muted-foreground">
                 <span>상품 금액</span>
                 <span>{formatPrice(totalAmount)}</span>
               </div>
-              <div className="flex justify-between text-gray-600">
+              <div className="flex justify-between text-muted-foreground">
                 <span>배송비</span>
                 <span>무료</span>
               </div>

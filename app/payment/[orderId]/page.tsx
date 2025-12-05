@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { updateOrderStatus } from "@/app/actions/orders";
 import type { Order, OrderWithItems } from "@/types/database";
 import { PaymentWidget } from "@/components/payment/payment-widget";
+import { LoadingSkeleton, CardSkeleton } from "@/components/ui/loading-skeleton";
+import { ErrorState } from "@/components/ui/error-state";
 
 /**
  * 결제 페이지
@@ -107,7 +109,18 @@ export default function PaymentPage() {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p>로딩 중...</p>
+        <div className="space-y-6">
+          <LoadingSkeleton variant="text" width="200px" height="32px" />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-6">
+              <CardSkeleton lines={4} />
+              <CardSkeleton lines={2} />
+            </div>
+            <div className="lg:col-span-1">
+              <CardSkeleton lines={3} />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -115,11 +128,12 @@ export default function PaymentPage() {
   if (error || !order) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center py-12">
-          <p className="text-red-500 text-lg mb-4">
-            {error || "주문을 찾을 수 없습니다."}
-          </p>
-          <div className="flex gap-4 justify-center">
+        <ErrorState
+          message={error || "주문을 찾을 수 없습니다."}
+          onRetry={fetchOrder}
+          retryLabel="다시 시도"
+        >
+          <div className="flex gap-4 justify-center mt-4">
             {orderId && (
               <Button variant="outline" onClick={() => router.push(`/my/orders/${orderId}`)}>
                 주문 확인하기
@@ -127,7 +141,7 @@ export default function PaymentPage() {
             )}
             <Button onClick={() => router.push("/cart")}>장바구니로 돌아가기</Button>
           </div>
-        </div>
+        </ErrorState>
       </div>
     );
   }

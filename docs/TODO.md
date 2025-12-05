@@ -1,28 +1,27 @@
-- [ ] `.cursor/` 디렉토리
-  - [ ] `rules/` 커서룰
-  - [ ] `mcp.json` MCP 서버 설정
-  - [ ] `dir.md` 프로젝트 디렉토리 구조
-- [ ] `.github/` 디렉토리
-- [ ] `.husky/` 디렉토리
-- [ ] `app/` 디렉토리
-  - [ ] `favicon.ico` 파일
-  - [ ] `not-found.tsx` 파일
-  - [ ] `robots.ts` 파일
-  - [ ] `sitemap.ts` 파일
-  - [ ] `manifest.ts` 파일
-- [ ] `supabase/` 디렉토리
-- [ ] `public/` 디렉토리
-  - [ ] `icons/` 디렉토리
-  - [ ] `logo.png` 파일
-  - [ ] `og-image.png` 파일
-- [ ] `tsconfig.json` 파일
-- [ ] `.cursorignore` 파일
-- [ ] `.gitignore` 파일
-- [ ] `.prettierignore` 파일
-- [ ] `.prettierrc` 파일
-- [ ] `tsconfig.json` 파일
-- [ ] `eslint.config.mjs` 파일
-- [ ] `AGENTS.md` 파일
+- [x] `.cursor/` 디렉토리 ✅ 완료
+  - [x] `rules/` 커서룰
+  - [x] `mcp.json` MCP 서버 설정 (선택사항)
+  - [x] `dir.md` 프로젝트 디렉토리 구조 (선택사항)
+- [ ] `.github/` 디렉토리 (선택사항)
+- [ ] `.husky/` 디렉토리 (선택사항)
+- [x] `app/` 디렉토리 ✅ 완료
+  - [x] `favicon.ico` 파일
+  - [x] `not-found.tsx` 파일
+  - [x] `robots.ts` 파일
+  - [x] `sitemap.ts` 파일
+  - [x] `manifest.ts` 파일
+- [x] `supabase/` 디렉토리 ✅ 완료
+- [x] `public/` 디렉토리 ✅ 완료
+  - [x] `icons/` 디렉토리
+  - [x] `logo.png` 파일
+  - [x] `og-image.png` 파일
+- [x] `tsconfig.json` 파일 ✅ 완료
+- [x] `.cursorignore` 파일 ✅ 완료
+- [x] `.gitignore` 파일 ✅ 완료
+- [x] `.prettierignore` 파일 ✅ 완료
+- [x] `.prettierrc` 파일 ✅ 완료
+- [x] `eslint.config.mjs` 파일 ✅ 완료
+- [x] `AGENTS.md` 파일 ✅ 완료
 
 - [x] Phase 1: 기본 인프라
 
@@ -33,7 +32,7 @@
   - [x] DB 스키마 준비: `products`, `cart_items`, `orders`, `order_items` (개발 환경 RLS 비활성화)
   - [x] 마이그레이션 작성/적용 (`supabase/migrations/*`)
 
-- [ ] Phase 2: 상품 기능
+- [x] Phase 2: 상품 기능 ✅ 완료
 
   - [x] 홈 페이지: 프로모션/카테고리 진입 동선
   - [x] 상품 목록 페이지: 페이지네이션/정렬/카테고리 필터
@@ -72,15 +71,27 @@
   - [x] 주요 버그 수정 및 예외처리 강화
   - [x] Vercel 배포 설정 및 환경변수 구성
 
-- [ ] 공통 작업 & 문서화
+- [x] 공통 작업 & 문서화 ✅ 완료
 
-  - [ ] 오류/로딩/비어있는 상태 UI 정비
-  - [ ] 타입 안전성 강화 (Zod + react-hook-form 적용 구간)
-  - [ ] README/PRD 반영, 운영 가이드 업데이트
-  - [ ] 접근성/반응형/다크모드 점검
+  - [x] 오류/로딩/비어있는 상태 UI 정비
+    - [x] 재사용 가능한 상태 UI 컴포넌트 생성 (loading-skeleton.tsx, error-state.tsx, empty-state.tsx)
+    - [x] payment/[orderId]/page.tsx 로딩/에러 상태 UI 개선
+    - [x] 홈페이지(app/page.tsx) 에러 처리 및 빈 상태 개선
+  - [x] 타입 안전성 강화 (Zod + react-hook-form 적용 구간)
+    - [x] 프로젝트 전체 폼 검색 및 Zod 적용 필요 여부 판단
+    - [x] 공통 Zod 스키마 유틸리티 생성 (lib/validations/schemas.ts)
+    - [x] 필요한 폼에 Zod + react-hook-form 적용 (checkout-form.tsx)
+  - [x] README/PRD 반영, 운영 가이드 업데이트
+    - [x] README.md 업데이트 (최신 기능 반영, 문서 링크 추가)
+    - [x] PRD.md 업데이트 (완료된 Phase 반영)
+    - [x] 운영 가이드 작성 (docs/OPERATION_GUIDE.md)
+  - [x] 접근성/반응형/다크모드 점검
+    - [x] 접근성 점검 및 개선 (키보드 네비게이션, 스크린 리더, 색상 대비 등)
+    - [x] 반응형 디자인 점검 및 개선 (모든 페이지, 모든 브레이크포인트)
+    - [x] 다크모드 구현 (theme-toggle, theme-provider, layout 통합)
 
-- [ ] 환경/리포지토리 기초 세팅
-  - [ ] `.gitignore` / `.cursorignore` 정비
-  - [ ] `eslint.config.mjs` / 포맷터 설정 확정
-  - [ ] 아이콘/OG 이미지/파비콘 추가 (`public/`)
-  - [ ] SEO 관련 파일 (`robots.ts`, `sitemap.ts`, `manifest.ts`)
+- [x] 환경/리포지토리 기초 세팅
+  - [x] `.gitignore` / `.cursorignore` 정비
+  - [x] `eslint.config.mjs` / 포맷터 설정 확정
+  - [x] 아이콘/OG 이미지/파비콘 추가 (`public/`)
+  - [x] SEO 관련 파일 (`robots.ts`, `sitemap.ts`, `manifest.ts`)

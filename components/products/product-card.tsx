@@ -31,6 +31,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <Link
       href={`/products/${product.id}`}
       className="group block"
+      aria-label={`${product.name} 상품 상세 보기`}
     >
       <div className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
         {/* 상품 이미지 */}
@@ -44,7 +45,7 @@ export function ProductCard({ product }: ProductCardProps) {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-400">
+            <div className="w-full h-full flex items-center justify-center text-muted-foreground">
               이미지 없음
             </div>
           )}
@@ -52,11 +53,11 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* 상품 정보 */}
         <div className="p-4">
-          <h3 className="font-semibold text-lg mb-2 line-clamp-2">
+          <h3 className="font-semibold text-lg mb-2 line-clamp-2 text-foreground">
             {product.name}
           </h3>
           {product.category && (
-            <p className="text-sm text-gray-500 mb-2">
+            <p className="text-sm text-muted-foreground mb-2">
               {product.category.name}
             </p>
           )}

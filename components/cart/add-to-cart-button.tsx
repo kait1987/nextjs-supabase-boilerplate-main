@@ -87,6 +87,8 @@ export function AddToCartButton({
         disabled={loading}
         className="w-full"
         size="lg"
+        aria-label={loading ? "장바구니에 추가 중" : "장바구니에 추가"}
+        aria-busy={loading}
       >
         <ShoppingCart className="mr-2 h-4 w-4" />
         {loading ? "추가 중..." : "장바구니에 추가"}

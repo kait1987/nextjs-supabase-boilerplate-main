@@ -23,13 +23,13 @@ export default async function CategoriesPage() {
       return (
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto text-center py-16">
-            <h1 className="text-4xl font-bold mb-4">데이터베이스 설정 필요</h1>
-            <p className="text-lg text-gray-600 mb-6">
+            <h1 className="text-4xl font-bold mb-4 text-foreground">데이터베이스 설정 필요</h1>
+            <p className="text-lg text-muted-foreground mb-6">
               카테고리 테이블이 데이터베이스에 생성되지 않았습니다.
             </p>
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-left">
-              <h2 className="font-semibold text-lg mb-3">해결 방법:</h2>
-              <ol className="list-decimal list-inside space-y-2 text-gray-700">
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 text-left">
+              <h2 className="font-semibold text-lg mb-3 text-foreground">해결 방법:</h2>
+              <ol className="list-decimal list-inside space-y-2 text-foreground">
                 <li>Supabase 대시보드에 접속합니다</li>
                 <li>SQL Editor로 이동합니다</li>
                 <li>
@@ -68,7 +68,7 @@ export default async function CategoriesPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">카테고리</h1>
+      <h1 className="text-4xl font-bold mb-8 text-foreground">카테고리</h1>
 
       {categoriesWithCount && categoriesWithCount.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -79,13 +79,13 @@ export default async function CategoriesPage() {
               className="group"
             >
               <div className="border rounded-lg p-6 hover:shadow-lg transition-shadow">
-                <h2 className="text-2xl font-bold mb-2 group-hover:text-primary">
+                <h2 className="text-2xl font-bold mb-2 group-hover:text-primary text-foreground">
                   {category.name}
                 </h2>
                 {category.description && (
-                  <p className="text-gray-600 mb-4">{category.description}</p>
+                  <p className="text-muted-foreground mb-4">{category.description}</p>
                 )}
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted-foreground">
                   {category.productCount}개의 상품
                 </p>
               </div>
@@ -94,7 +94,7 @@ export default async function CategoriesPage() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">카테고리가 없습니다.</p>
+          <p className="text-muted-foreground text-lg">카테고리가 없습니다.</p>
         </div>
       )}
     </div>

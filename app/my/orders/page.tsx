@@ -63,7 +63,7 @@ export default function MyOrdersPage() {
       cancelled: { text: "취소됨", bgColor: "bg-red-100", textColor: "text-red-800" },
       completed: { text: "완료", bgColor: "bg-blue-100", textColor: "text-blue-800" },
     };
-    return labels[status] || { text: status, bgColor: "bg-gray-100", textColor: "text-gray-800" };
+    return labels[status] || { text: status, bgColor: "bg-muted", textColor: "text-foreground" };
   };
 
   const getTotalItemCount = (order: OrderWithItems) => {
@@ -110,9 +110,9 @@ export default function MyOrdersPage() {
 
       {orders.length === 0 ? (
         <div className="text-center py-16">
-          <Package className="h-24 w-24 mx-auto text-gray-300 mb-4" />
-          <p className="text-gray-500 text-xl mb-2">주문 내역이 없습니다.</p>
-          <p className="text-gray-400 text-sm mb-6">첫 주문을 시작해보세요!</p>
+          <Package className="h-24 w-24 mx-auto text-muted-foreground mb-4" />
+          <p className="text-muted-foreground text-xl mb-2">주문 내역이 없습니다.</p>
+          <p className="text-muted-foreground text-sm mb-6">첫 주문을 시작해보세요!</p>
           <Link href="/products">
             <Button size="lg">상품 보러가기</Button>
           </Link>
@@ -128,21 +128,21 @@ export default function MyOrdersPage() {
                 href={`/my/orders/${order.id}`}
                 className="block"
               >
-                <div className="border rounded-lg p-6 hover:shadow-lg transition-shadow bg-white">
+                <div className="border rounded-lg p-6 hover:shadow-lg transition-shadow bg-card">
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-semibold">
+                        <h3 className="text-lg font-semibold text-foreground">
                           {order.order_number}
                         </h3>
                         <span className={`px-2 py-1 rounded text-xs font-medium ${status.bgColor} ${status.textColor}`}>
                           {status.text}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-500 mb-2">
+                      <p className="text-sm text-muted-foreground mb-2">
                         {formatDateTime(order.created_at)}
                       </p>
-                      <div className="flex items-center gap-4 text-sm text-gray-600">
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Package className="h-4 w-4" />
                           {itemCount}개 상품

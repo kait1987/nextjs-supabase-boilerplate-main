@@ -171,12 +171,12 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto text-center py-16">
             <h1 className="text-4xl font-bold mb-4">데이터베이스 설정 필요</h1>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-lg text-muted-foreground mb-6">
               상품 테이블이 데이터베이스에 생성되지 않았습니다.
             </p>
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-left">
               <h2 className="font-semibold text-lg mb-3">해결 방법:</h2>
-              <ol className="list-decimal list-inside space-y-2 text-gray-700">
+              <ol className="list-decimal list-inside space-y-2 text-foreground">
                 <li>Supabase 대시보드에 접속합니다</li>
                 <li>SQL Editor로 이동합니다</li>
                 <li>
@@ -211,12 +211,12 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto text-center py-16">
             <h1 className="text-4xl font-bold mb-4">데이터베이스 스키마 업데이트 필요</h1>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-lg text-muted-foreground mb-6">
               상품 테이블에 <code className="bg-gray-100 px-2 py-1 rounded">stock</code> 컬럼이 없습니다.
             </p>
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-left">
               <h2 className="font-semibold text-lg mb-3">해결 방법:</h2>
-              <ol className="list-decimal list-inside space-y-2 text-gray-700">
+              <ol className="list-decimal list-inside space-y-2 text-foreground">
                 <li>Supabase 대시보드에 접속합니다</li>
                 <li>SQL Editor로 이동합니다</li>
                 <li>
@@ -243,7 +243,7 @@ ADD COLUMN IF NOT EXISTS stock INTEGER DEFAULT 0 NOT NULL;`}
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto text-center py-16">
             <h1 className="text-4xl font-bold mb-4">상품을 불러올 수 없습니다</h1>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-lg text-muted-foreground mb-6">
               상품 목록을 가져오는 중 오류가 발생했습니다.
             </p>
             <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-left">
@@ -294,7 +294,7 @@ ADD COLUMN IF NOT EXISTS stock INTEGER DEFAULT 0 NOT NULL;`}
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <h1 className="text-4xl font-bold">상품 목록</h1>
+          <h1 className="text-4xl font-bold text-foreground">상품 목록</h1>
 
           {/* 정렬 선택 */}
           <ProductSort currentSort={sortParam} />

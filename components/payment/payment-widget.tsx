@@ -109,7 +109,12 @@ export function PaymentWidget({
         </div>
       ) : (
         <div className="space-y-4">
-          <Button onClick={handlePayment} className="w-full" size="lg">
+          <Button 
+            onClick={handlePayment} 
+            className="w-full" 
+            size="lg"
+            aria-label={`${formatPrice(amount)}원 결제하기`}
+          >
             카드로 결제하기
           </Button>
 

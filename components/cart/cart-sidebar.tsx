@@ -143,57 +143,46 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
   return (
     <>
       {/* 사이드바 - 항상 보이도록 오버레이 제거, 작은 크기 */}
-      <div className="fixed right-0 top-0 h-full w-full max-w-xs bg-white shadow-xl z-40 flex flex-col border-l">
+      <div className="fixed right-0 top-0 h-full w-full max-w-xs bg-background shadow-xl z-40 flex flex-col border-l border-border">
         {/* 헤더 */}
-        <div className="flex items-center justify-between p-3 border-b">
-          <h2 className="text-lg font-bold flex items-center gap-1.5">
+        <div className="flex items-center justify-between p-3 border-b border-border">
+          <h2 className="text-lg font-bold text-foreground flex items-center gap-1.5">
             <ShoppingCart className="h-4 w-4" />
             장바구니
           </h2>
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="h-7 px-2 text-xs"
-              title="장바구니 숨기기"
-            >
-              <EyeOff className="h-3.5 w-3.5 mr-1" />
-              숨기기
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-8 w-8" 
-              onClick={onClose}
-              title="닫기"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+          <Button 
+            variant="default" 
+            size="sm"
+            onClick={onClose}
+            className="h-8 px-3 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
+            title="장바구니 숨기기"
+            aria-label="장바구니 숨기기"
+          >
+            장바구니 숨기기
+          </Button>
         </div>
 
         {/* 내용 */}
         <div className="flex-1 overflow-y-auto p-3">
           {loading ? (
             <div className="text-center py-8">
-              <p>로딩 중...</p>
+              <p className="text-foreground">로딩 중...</p>
             </div>
           ) : error ? (
             <div className="text-center py-8">
-              <p className="text-red-500 text-sm">{error}</p>
+              <p className="text-destructive text-sm">{error}</p>
             </div>
           ) : cartItems.length === 0 ? (
             <div className="text-center py-8">
-              <ShoppingCart className="h-12 w-12 mx-auto text-gray-300 mb-2" />
-              <p className="text-gray-500 text-sm">장바구니가 비어있습니다.</p>
+              <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
+              <p className="text-muted-foreground text-sm">장바구니가 비어있습니다.</p>
             </div>
           ) : (
             <div className="space-y-2">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="border rounded-lg p-2 flex gap-2"
+                  className="border border-border rounded-lg p-2 flex gap-2 bg-card"
                 >
                   <Link
                     href={`/products/${item.product.id}`}
@@ -208,7 +197,7 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                         className="object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">
+                      <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">
                         이미지 없음
                       </div>
                     )}
@@ -218,7 +207,7 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                       href={`/products/${item.product.id}`}
                       onClick={onClose}
                     >
-                      <h3 className="font-semibold text-xs mb-0.5 hover:text-primary truncate">
+                      <h3 className="font-semibold text-xs mb-0.5 text-foreground hover:text-primary truncate">
                         {item.product.name}
                       </h3>
                     </Link>
@@ -227,34 +216,39 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                     </p>
                     <div className="flex items-center gap-1.5">
                       <div className="flex items-center gap-0.5 border rounded">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-5 w-5"
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          disabled={item.quantity <= 1}
-                        >
-                          <Minus className="h-2.5 w-2.5" />
-                        </Button>
-                        <span className="w-6 text-center text-xs">{item.quantity}</span>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-5 w-5"
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          disabled={item.product.stock < item.quantity + 1}
-                        >
-                          <Plus className="h-2.5 w-2.5" />
-                        </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-5 w-5"
+                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                disabled={item.quantity <= 1}
+                                aria-label={`${item.product.name} 수량 감소`}
+                              >
+                                <Minus className="h-2.5 w-2.5" />
+                              </Button>
+                              <span className="w-6 text-center text-xs text-foreground" aria-label={`${item.product.name} 수량: ${item.quantity}개`}>
+                                {item.quantity}
+                              </span>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-5 w-5"
+                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                disabled={item.product.stock < item.quantity + 1}
+                                aria-label={`${item.product.name} 수량 증가`}
+                              >
+                                <Plus className="h-2.5 w-2.5" />
+                              </Button>
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-5 w-5 text-red-500 hover:text-red-700"
-                        onClick={() => removeItem(item.id)}
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-5 w-5 text-red-500 hover:text-red-700"
+                                onClick={() => removeItem(item.id)}
+                                aria-label={`${item.product.name} 장바구니에서 삭제`}
+                              >
+                                <Trash2 className="h-3 w-3" />
+                              </Button>
                     </div>
                   </div>
                 </div>
@@ -265,9 +259,9 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
 
         {/* 푸터 (총액 및 결제 버튼) */}
         {cartItems.length > 0 && (
-          <div className="border-t p-3 space-y-2">
+          <div className="border-t border-border p-3 space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-bold">총 결제금액</span>
+              <span className="text-sm font-bold text-foreground">총 결제금액</span>
               <span className="text-base font-bold text-primary">
                 {formatPrice(totalAmount)}
               </span>

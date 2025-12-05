@@ -55,9 +55,9 @@ export function ProductGrid({
   if (!products || products.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500 text-lg mb-4">{emptyMessage}</p>
+        <p className="text-muted-foreground text-lg mb-4">{emptyMessage}</p>
         {emptySubMessage && (
-          <p className="text-sm text-gray-400">{emptySubMessage}</p>
+          <p className="text-sm text-muted-foreground">{emptySubMessage}</p>
         )}
       </div>
     );

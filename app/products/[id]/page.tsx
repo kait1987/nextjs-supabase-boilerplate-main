@@ -58,7 +58,7 @@ export default async function ProductDetailPage({
               priority
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-400">
+            <div className="w-full h-full flex items-center justify-center text-muted-foreground">
               이미지 없음
             </div>
           )}
@@ -67,26 +67,26 @@ export default async function ProductDetailPage({
         {/* 상품 정보 */}
         <div className="space-y-6">
           {productWithCategory.category && (
-            <p className="text-sm text-gray-500">{productWithCategory.category.name}</p>
+            <p className="text-sm text-muted-foreground">{productWithCategory.category.name}</p>
           )}
-          <h1 className="text-4xl font-bold">{productWithCategory.name}</h1>
-          <p className="text-3xl font-bold text-primary">
+          <h1 className="text-4xl font-bold text-foreground">{productWithCategory.name}</h1>
+          <p className="text-3xl text-primary">
             {formatPrice(productWithCategory.price)}
           </p>
 
           {productWithCategory.description && (
             <div className="prose max-w-none">
-              <p className="text-gray-700 whitespace-pre-line">
+              <p className="text-foreground whitespace-pre-line">
                 {productWithCategory.description}
               </p>
             </div>
           )}
 
-          <div className="space-y-4 pt-4 border-t">
+          <div className="space-y-4 pt-4 border-t border-border">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">재고</span>
+              <span className="text-sm text-muted-foreground">재고</span>
               <span
-                className={`text-sm font-semibold ${
+                className={`text-sm ${
                   productWithCategory.stock > 0 ? "text-green-600" : "text-red-500"
                 }`}
               >
