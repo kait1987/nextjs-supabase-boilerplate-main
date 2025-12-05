@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { formatPrice } from "@/lib/utils/format";
 import Script from "next/script";
 
 interface PaymentWidgetProps {
