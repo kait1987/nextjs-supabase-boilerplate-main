@@ -18,13 +18,10 @@ export default async function ProductDetailPage({
   const { id } = await params;
   const supabase = await createClient();
 
-  // 상품 정보 가져오기
+  // 상품 정보 가져오기 (외래키 관계 쿼리 대신 별도 쿼리로 변경)
   const { data: product, error } = await supabase
     .from("products")
-    .select(`
-      *,
-      category:categories(*)
-    `)
+    .select("*")
     .eq("id", id)
     .eq("is_active", true)
     .single();
@@ -33,15 +30,29 @@ export default async function ProductDetailPage({
     notFound();
   }
 
+  // 카테고리 정보 별도 조회
+  let category = null;
+  if (product.category_id) {
+    const { data: categoryData } = await supabase
+      .from("categories")
+      .select("*")
+      .eq("id", product.category_id)
+      .single();
+    category = categoryData;
+  }
+
+  // 카테고리 정보 병합
+  const productWithCategory = { ...product, category } as any;
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* 상품 이미지 */}
         <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden relative">
-          {product.image_url ? (
+          {productWithCategory.image_url ? (
             <Image
-              src={product.image_url}
-              alt={product.name}
+              src={productWithCategory.image_url}
+              alt={productWithCategory.name}
               fill
               className="object-cover"
               priority
@@ -55,18 +66,18 @@ export default async function ProductDetailPage({
 
         {/* 상품 정보 */}
         <div className="space-y-6">
-          {product.category && (
-            <p className="text-sm text-gray-500">{product.category.name}</p>
+          {productWithCategory.category && (
+            <p className="text-sm text-gray-500">{productWithCategory.category.name}</p>
           )}
-          <h1 className="text-4xl font-bold">{product.name}</h1>
+          <h1 className="text-4xl font-bold">{productWithCategory.name}</h1>
           <p className="text-3xl font-bold text-primary">
-            {formatPrice(product.price)}
+            {formatPrice(productWithCategory.price)}
           </p>
 
-          {product.description && (
+          {productWithCategory.description && (
             <div className="prose max-w-none">
               <p className="text-gray-700 whitespace-pre-line">
-                {product.description}
+                {productWithCategory.description}
               </p>
             </div>
           )}
@@ -76,15 +87,15 @@ export default async function ProductDetailPage({
               <span className="text-sm text-gray-600">재고</span>
               <span
                 className={`text-sm font-semibold ${
-                  product.stock > 0 ? "text-green-600" : "text-red-500"
+                  productWithCategory.stock > 0 ? "text-green-600" : "text-red-500"
                 }`}
               >
-                {product.stock > 0 ? `${product.stock}개` : "품절"}
+                {productWithCategory.stock > 0 ? `${productWithCategory.stock}개` : "품절"}
               </span>
             </div>
 
-            {product.stock > 0 ? (
-              <AddToCartButton productId={product.id} />
+            {productWithCategory.stock > 0 ? (
+              <AddToCartButton productId={productWithCategory.id} />
             ) : (
               <Button disabled className="w-full">
                 품절

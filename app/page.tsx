@@ -1,27 +1,65 @@
+/**
+ * @file page.tsx
+ * @description 홈페이지
+ *
+ * 히어로 섹션, 인기 상품 섹션, 카테고리별 상품 섹션을 표시합니다.
+ * ProductCard와 ProductGrid 컴포넌트를 사용하여 재사용 가능한 구조로 구현되었습니다.
+ *
+ * @dependencies
+ * - @/lib/supabase/server: Supabase 클라이언트
+ * - @/components/products/product-grid: ProductGrid 컴포넌트
+ * - @/components/ui/button: Button 컴포넌트
+ * - @/types/database: ProductWithCategory 타입
+ */
+
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import Image from "next/image";
-import { formatPrice } from "@/lib/utils/format";
 import { Button } from "@/components/ui/button";
+import { ProductGrid } from "@/components/products/product-grid";
+import { ProductWithCategory } from "@/types/database";
 
-/**
- * 홈페이지
- * 
- * 인기 상품 목록을 표시합니다.
- */
 export default async function Home() {
   const supabase = await createClient();
 
-  // 최신 상품 8개 가져오기
-  const { data: products } = await supabase
+  // 최신 상품 8개 가져오기 (인기 상품 섹션용)
+  const { data: featuredProducts } = await supabase
     .from("products")
     .select(`
       *,
       category:categories(*)
     `)
     .eq("is_active", true)
+    .gt("stock", 0)
     .order("created_at", { ascending: false })
     .limit(8);
+
+  // 카테고리 목록 가져오기
+  const { data: categories } = await supabase
+    .from("categories")
+    .select("*")
+    .order("name");
+
+  // 각 카테고리별로 최신 상품 4개씩 가져오기
+  const categoryProducts = await Promise.all(
+    (categories || []).map(async (category) => {
+      const { data: products } = await supabase
+        .from("products")
+        .select(`
+          *,
+          category:categories(*)
+        `)
+        .eq("is_active", true)
+        .eq("category_id", category.id)
+        .gt("stock", 0)
+        .order("created_at", { ascending: false })
+        .limit(4);
+
+      return {
+        category,
+        products: (products || []) as ProductWithCategory[],
+      };
+    })
+  );
 
   return (
     <main className="min-h-[calc(100vh-80px)]">
@@ -51,55 +89,33 @@ export default async function Home() {
           </Link>
         </div>
 
-        {products && products.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product: any) => (
-              <Link
-                key={product.id}
-                href={`/products/${product.id}`}
-                className="group"
-              >
-                <div className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="aspect-square bg-gray-100 relative overflow-hidden">
-                    {product.image_url ? (
-                      <Image
-                        src={product.image_url}
-                        alt={product.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        이미지 없음
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-lg mb-2 line-clamp-2">
-                      {product.name}
-                    </h3>
-                    {product.category && (
-                      <p className="text-sm text-gray-500 mb-2">
-                        {product.category.name}
-                      </p>
-                    )}
-                    <p className="text-xl font-bold text-primary">
-                      {formatPrice(product.price)}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg mb-4">등록된 상품이 없습니다.</p>
-            <p className="text-sm text-gray-400">
-              Supabase Dashboard에서 상품을 등록해주세요.
-            </p>
-          </div>
-        )}
+        <ProductGrid
+          products={(featuredProducts || []) as ProductWithCategory[]}
+          emptyMessage="등록된 상품이 없습니다."
+          emptySubMessage="Supabase Dashboard에서 상품을 등록해주세요."
+        />
       </section>
+
+      {/* 카테고리별 상품 섹션 */}
+      {categoryProducts.map(({ category, products }) => {
+        if (products.length === 0) return null;
+
+        return (
+          <section key={category.id} className="container mx-auto px-4 py-16">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-3xl font-bold">{category.name}</h2>
+              <Link href={`/products?category=${category.slug}`}>
+                <Button variant="outline">더보기</Button>
+              </Link>
+            </div>
+
+            <ProductGrid
+              products={products}
+              columns={{ mobile: 1, sm: 2, lg: 4 }}
+            />
+          </section>
+        );
+      })}
     </main>
   );
 }
