@@ -92,3 +92,5 @@ repomix-output.xml
 *.tmp
 *.temp
 .cache/
+
+.vercel

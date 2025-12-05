@@ -29,9 +29,13 @@ const Navbar = () => {
     setIsCartHidden(true); // 사용자가 숨김
   };
 
-  const handleOpenCart = () => {
-    setIsCartHidden(false);
-    setIsCartOpen(true);
+  const handleToggleCart = () => {
+    if (isCartHidden) {
+      setIsCartHidden(false);
+      setIsCartOpen(true);
+    } else {
+      setIsCartOpen(!isCartOpen);
+    }
   };
 
   return (
@@ -66,9 +70,9 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={handleOpenCart}
+                  onClick={handleToggleCart}
                   className="relative"
-                  title="장바구니 보기"
+                  title={isCartOpen ? "장바구니 숨기기" : "장바구니 보기"}
                 >
                   <ShoppingCart className="h-5 w-5" />
                   <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">

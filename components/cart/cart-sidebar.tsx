@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
 import { formatPrice } from "@/lib/utils/format";
 import { Button } from "@/components/ui/button";
-import { X, Plus, Minus, Trash2, ShoppingCart, EyeOff } from "lucide-react";
+import { X, Plus, Minus, Trash2, ShoppingCart, EyeOff, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import type { CartItemWithProduct } from "@/types/database";
@@ -144,7 +144,7 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
     <>
       {/* 사이드바 - 항상 보이도록 오버레이 제거, 작은 크기 */}
       <div className="fixed right-0 top-0 h-full w-full max-w-xs bg-background shadow-xl z-40 flex flex-col border-l border-border">
-        {/* 헤더 */}
+        {/* 헤더 - 숨기기 버튼 포함 */}
         <div className="flex items-center justify-between p-3 border-b border-border">
           <h2 className="text-lg font-bold text-foreground flex items-center gap-1.5">
             <ShoppingCart className="h-4 w-4" />
@@ -152,13 +152,13 @@ export function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
           </h2>
           <Button 
             variant="default" 
-            size="sm"
+            size="icon"
             onClick={onClose}
-            className="h-8 px-3 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
+            className="h-8 w-8 bg-primary text-primary-foreground hover:bg-primary/90"
             title="장바구니 숨기기"
             aria-label="장바구니 숨기기"
           >
-            장바구니 숨기기
+            <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
 
