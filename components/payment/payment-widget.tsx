@@ -62,10 +62,11 @@ export function PaymentWidget({
           }
         })
         .catch((err: any) => {
-          console.error("Payment error:", err);
           if (err.code === "USER_CANCEL") {
+            // 사용자 취소는 정상 동작이므로 에러로 처리하지 않음
             onCancel();
           } else {
+            console.error("Payment error:", err);
             setError(err.message || "결제 처리 중 오류가 발생했습니다.");
           }
         });
