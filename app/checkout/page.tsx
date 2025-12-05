@@ -23,6 +23,7 @@ export default function CheckoutPage() {
   const supabase = useClerkSupabaseClient();
   const [cartItems, setCartItems] = useState<CartItemWithProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isSignedIn || !userId) {
@@ -48,9 +49,14 @@ export default function CheckoutPage() {
 
       if (error) throw error;
       setCartItems((data as CartItemWithProduct[]) || []);
+      setError(null);
     } catch (err: any) {
       console.error("Error fetching cart items:", err);
-      router.push("/cart");
+      setError(err.message || "장바구니를 불러오는데 실패했습니다.");
+      // 장바구니가 비어있거나 에러가 발생하면 장바구니 페이지로 이동
+      setTimeout(() => {
+        router.push("/cart");
+      }, 2000);
     } finally {
       setLoading(false);
     }
@@ -63,14 +69,53 @@ export default function CheckoutPage() {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p>로딩 중...</p>
+        <div className="space-y-6">
+          <div className="h-8 bg-gray-200 rounded w-1/3 animate-pulse"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <div className="border rounded-lg p-6">
+                <div className="h-6 bg-gray-200 rounded w-1/4 mb-4 animate-pulse"></div>
+                <div className="space-y-4">
+                  <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-24 bg-gray-200 rounded animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+            <div className="lg:col-span-1">
+              <div className="border rounded-lg p-6">
+                <div className="h-6 bg-gray-200 rounded w-1/3 mb-4 animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center py-12">
+          <p className="text-red-500 text-lg mb-2">{error}</p>
+          <p className="text-gray-400 text-sm mb-6">
+            장바구니 페이지로 이동합니다...
+          </p>
+          <Button onClick={() => router.push("/cart")}>장바구니로 이동</Button>
+        </div>
       </div>
     );
   }
 
   if (cartItems.length === 0) {
-    router.push("/cart");
-    return null;
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg mb-4">장바구니가 비어있습니다.</p>
+          <Button onClick={() => router.push("/cart")}>장바구니로 이동</Button>
+        </div>
+      </div>
+    );
   }
 
   const totalAmount = cartItems.reduce((sum, item) => {

@@ -123,8 +123,19 @@ export async function createOrder({
 
     return order;
   } catch (error: any) {
-    console.error("Error creating order:", error);
-    throw new Error(error.message || "주문 생성에 실패했습니다.");
+    // 개발 환경에서 상세 로깅
+    if (process.env.NODE_ENV === "development") {
+      console.error("Error creating order:", {
+        message: error.message,
+        stack: error.stack,
+        userId,
+        cartItemsCount: cartItems.length,
+      });
+    }
+
+    // 사용자 친화적 에러 메시지
+    const errorMessage = error.message || "주문 생성에 실패했습니다. 잠시 후 다시 시도해주세요.";
+    throw new Error(errorMessage);
   }
 }
 
@@ -204,8 +215,20 @@ export async function updateOrderStatus(
     if (error) throw error;
     return data;
   } catch (error: any) {
-    console.error("Error updating order status:", error);
-    throw new Error(error.message || "주문 상태 업데이트에 실패했습니다.");
+    // 개발 환경에서 상세 로깅
+    if (process.env.NODE_ENV === "development") {
+      console.error("Error updating order status:", {
+        message: error.message,
+        stack: error.stack,
+        orderId,
+        status,
+        userId,
+      });
+    }
+
+    // 사용자 친화적 에러 메시지
+    const errorMessage = error.message || "주문 상태 업데이트에 실패했습니다. 잠시 후 다시 시도해주세요.";
+    throw new Error(errorMessage);
   }
 }
 

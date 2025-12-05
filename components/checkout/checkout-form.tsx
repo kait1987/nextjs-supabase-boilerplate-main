@@ -3,13 +3,35 @@
 import { useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { CartItemWithProduct } from "@/types/database";
 import { createOrder } from "@/app/actions/orders";
+
+// 배송 정보 검증 스키마
+const shippingInfoSchema = z.object({
+  shippingName: z
+    .string()
+    .min(2, "이름은 2자 이상 입력해주세요.")
+    .max(50, "이름은 50자 이하로 입력해주세요.")
+    .regex(/^[가-힣a-zA-Z\s]+$/, "이름은 한글 또는 영문만 입력 가능합니다."),
+  shippingPhone: z
+    .string()
+    .min(10, "전화번호를 올바르게 입력해주세요.")
+    .max(15, "전화번호는 15자 이하로 입력해주세요.")
+    .regex(/^[0-9-]+$/, "전화번호는 숫자와 하이픈(-)만 입력 가능합니다."),
+  shippingAddress: z
+    .string()
+    .min(10, "배송 주소를 상세히 입력해주세요.")
+    .max(200, "배송 주소는 200자 이하로 입력해주세요."),
+});
+
+type ShippingInfoFormData = z.infer<typeof shippingInfoSchema>;
 
 interface CheckoutFormProps {
   cartItems: CartItemWithProduct[];
@@ -27,14 +49,16 @@ export function CheckoutForm({ cartItems, totalAmount }: CheckoutFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState({
-    shippingName: "",
-    shippingPhone: "",
-    shippingAddress: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ShippingInfoFormData>({
+    resolver: zodResolver(shippingInfoSchema),
+    mode: "onChange", // 실시간 유효성 검사
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: ShippingInfoFormData) => {
     if (!userId) return;
 
     try {
@@ -46,7 +70,11 @@ export function CheckoutForm({ cartItems, totalAmount }: CheckoutFormProps) {
         userId,
         cartItems,
         totalAmount,
-        shippingInfo: formData,
+        shippingInfo: {
+          shippingName: data.shippingName,
+          shippingPhone: data.shippingPhone,
+          shippingAddress: data.shippingAddress,
+        },
       });
 
       if (!order) {
@@ -57,14 +85,14 @@ export function CheckoutForm({ cartItems, totalAmount }: CheckoutFormProps) {
       router.push(`/payment/${order.id}`);
     } catch (err: any) {
       console.error("Error creating order:", err);
-      setError(err.message || "주문 처리에 실패했습니다.");
+      setError(err.message || "주문 처리에 실패했습니다. 잠시 후 다시 시도해주세요.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="border rounded-lg p-6 space-y-4">
         <h2 className="text-xl font-bold mb-4">배송 정보</h2>
 
@@ -72,13 +100,13 @@ export function CheckoutForm({ cartItems, totalAmount }: CheckoutFormProps) {
           <Label htmlFor="shippingName">수령인 이름 *</Label>
           <Input
             id="shippingName"
-            required
-            value={formData.shippingName}
-            onChange={(e) =>
-              setFormData({ ...formData, shippingName: e.target.value })
-            }
+            {...register("shippingName")}
             placeholder="홍길동"
+            className={errors.shippingName ? "border-red-500" : ""}
           />
+          {errors.shippingName && (
+            <p className="text-sm text-red-500">{errors.shippingName.message}</p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -86,27 +114,27 @@ export function CheckoutForm({ cartItems, totalAmount }: CheckoutFormProps) {
           <Input
             id="shippingPhone"
             type="tel"
-            required
-            value={formData.shippingPhone}
-            onChange={(e) =>
-              setFormData({ ...formData, shippingPhone: e.target.value })
-            }
+            {...register("shippingPhone")}
             placeholder="010-1234-5678"
+            className={errors.shippingPhone ? "border-red-500" : ""}
           />
+          {errors.shippingPhone && (
+            <p className="text-sm text-red-500">{errors.shippingPhone.message}</p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="shippingAddress">배송 주소 *</Label>
           <Textarea
             id="shippingAddress"
-            required
-            value={formData.shippingAddress}
-            onChange={(e) =>
-              setFormData({ ...formData, shippingAddress: e.target.value })
-            }
+            {...register("shippingAddress")}
             placeholder="서울시 강남구 테헤란로 123"
             rows={3}
+            className={errors.shippingAddress ? "border-red-500" : ""}
           />
+          {errors.shippingAddress && (
+            <p className="text-sm text-red-500">{errors.shippingAddress.message}</p>
+          )}
         </div>
       </div>
 

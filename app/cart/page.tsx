@@ -72,7 +72,9 @@ export default function CartPage() {
       fetchCartItems();
     } catch (err: any) {
       console.error("Error updating quantity:", err);
-      setError(err.message || "수량 변경에 실패했습니다.");
+      const errorMessage = err.message || "수량 변경에 실패했습니다. 잠시 후 다시 시도해주세요.";
+      alert(errorMessage);
+      fetchCartItems(); // 상태 동기화를 위해 다시 불러오기
     }
   };
 
@@ -89,7 +91,9 @@ export default function CartPage() {
       fetchCartItems();
     } catch (err: any) {
       console.error("Error removing item:", err);
-      setError(err.message || "삭제에 실패했습니다.");
+      const errorMessage = err.message || "삭제에 실패했습니다. 잠시 후 다시 시도해주세요.";
+      alert(errorMessage);
+      fetchCartItems(); // 상태 동기화를 위해 다시 불러오기
     }
   };
 
@@ -104,7 +108,34 @@ export default function CartPage() {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p>로딩 중...</p>
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="border rounded-lg p-4 animate-pulse">
+              <div className="h-24 bg-gray-200 rounded mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center py-12">
+          <ShoppingCart className="h-24 w-24 mx-auto text-gray-300 mb-4" />
+          <p className="text-red-500 text-lg mb-2">{error}</p>
+          <p className="text-gray-400 text-sm mb-6">
+            장바구니를 불러오는데 문제가 발생했습니다.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button onClick={fetchCartItems}>다시 시도</Button>
+            <Link href="/products">
+              <Button variant="outline">상품 보러가기</Button>
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }
@@ -113,11 +144,6 @@ export default function CartPage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8">장바구니</h1>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-700">{error}</p>
-        </div>
-      )}
 
       {cartItems.length === 0 ? (
         <div className="text-center py-12">

@@ -7,8 +7,13 @@ import { useClerkSupabaseClient } from "@/lib/supabase/clerk-client";
 import { formatPrice, formatDateTime } from "@/lib/utils/format";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { CheckCircle } from "lucide-react";
-import type { OrderWithItems } from "@/types/database";
+import Image from "next/image";
+import { CheckCircle, Package, ArrowLeft } from "lucide-react";
+import type { OrderWithItems, OrderItem } from "@/types/database";
+
+interface OrderItemWithImage extends OrderItem {
+  product_image_url?: string | null;
+}
 
 /**
  * 주문 상세 페이지
@@ -24,6 +29,7 @@ export default function OrderDetailPage() {
   const supabase = useClerkSupabaseClient();
   const [order, setOrder] = useState<OrderWithItems | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const showSuccess = searchParams.get("success") === "true";
 
   useEffect(() => {
@@ -37,7 +43,10 @@ export default function OrderDetailPage() {
   const fetchOrder = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
+      setError(null);
+      
+      // 주문 정보 조회
+      const { data: orderData, error: orderError } = await supabase
         .from("orders")
         .select(`
           *,
@@ -47,11 +56,42 @@ export default function OrderDetailPage() {
         .eq("user_id", userId)
         .single();
 
-      if (error) throw error;
-      setOrder(data as OrderWithItems);
+      if (orderError) throw orderError;
+      if (!orderData) {
+        throw new Error("주문을 찾을 수 없습니다.");
+      }
+
+      // 주문 상품들의 이미지 URL 조회
+      const orderItems = orderData.order_items as OrderItem[];
+      const productIds = orderItems.map((item) => item.product_id);
+      
+      let productImages: Map<string, string | null> = new Map();
+      if (productIds.length > 0) {
+        const { data: products, error: productsError } = await supabase
+          .from("products")
+          .select("id, image_url")
+          .in("id", productIds);
+
+        if (!productsError && products) {
+          products.forEach((product) => {
+            productImages.set(product.id, product.image_url);
+          });
+        }
+      }
+
+      // 주문 상품에 이미지 URL 추가
+      const orderItemsWithImages: OrderItemWithImage[] = orderItems.map((item) => ({
+        ...item,
+        product_image_url: productImages.get(item.product_id) || null,
+      }));
+
+      setOrder({
+        ...orderData,
+        order_items: orderItemsWithImages,
+      } as OrderWithItems);
     } catch (err: any) {
       console.error("Error fetching order:", err);
-      router.push("/my/orders");
+      setError(err.message || "주문 정보를 불러오는데 실패했습니다.");
     } finally {
       setLoading(false);
     }
@@ -74,15 +114,47 @@ export default function OrderDetailPage() {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p>로딩 중...</p>
+        <div className="space-y-6">
+          <div className="h-8 bg-gray-200 rounded w-1/3 animate-pulse"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-6">
+              <div className="border rounded-lg p-6">
+                <div className="h-6 bg-gray-200 rounded w-1/4 mb-4 animate-pulse"></div>
+                <div className="space-y-2">
+                  <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+            <div className="lg:col-span-1">
+              <div className="border rounded-lg p-6">
+                <div className="h-6 bg-gray-200 rounded w-1/3 mb-4 animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
-  if (!order) {
+  if (error || !order) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p>주문을 찾을 수 없습니다.</p>
+        <div className="text-center py-16">
+          <Package className="h-24 w-24 mx-auto text-gray-300 mb-4" />
+          <p className="text-red-500 text-xl mb-2">
+            {error || "주문을 찾을 수 없습니다."}
+          </p>
+          <p className="text-gray-400 text-sm mb-6">
+            주문이 존재하지 않거나 접근 권한이 없습니다.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button onClick={() => router.push("/my/orders")} variant="outline">
+              주문 내역으로 돌아가기
+            </Button>
+            <Button onClick={fetchOrder}>다시 시도</Button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -99,8 +171,12 @@ export default function OrderDetailPage() {
       )}
 
       <div className="mb-8">
-        <Link href="/my/orders" className="text-blue-600 hover:underline mb-4 inline-block">
-          ← 주문 내역으로 돌아가기
+        <Link 
+          href="/my/orders" 
+          className="inline-flex items-center gap-2 text-blue-600 hover:underline mb-4"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          주문 내역으로 돌아가기
         </Link>
         <h1 className="text-4xl font-bold">주문 상세</h1>
       </div>
@@ -164,22 +240,52 @@ export default function OrderDetailPage() {
           <div className="border rounded-lg p-6">
             <h2 className="text-xl font-bold mb-4">주문 상품</h2>
             <div className="space-y-4">
-              {order.order_items.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex justify-between items-center py-2 border-b last:border-0"
-                >
-                  <div>
-                    <p className="font-semibold">{item.product_name}</p>
-                    <p className="text-sm text-gray-500">
-                      {formatPrice(item.product_price)} × {item.quantity}
-                    </p>
-                  </div>
-                  <p className="font-semibold">
-                    {formatPrice(item.subtotal)}
-                  </p>
-                </div>
-              ))}
+              {order.order_items.map((item) => {
+                const orderItem = item as OrderItemWithImage;
+                return (
+                  <Link
+                    key={item.id}
+                    href={`/products/${item.product_id}`}
+                    className="block"
+                  >
+                    <div className="flex gap-4 items-center py-4 border-b last:border-0 hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors">
+                      {/* 상품 이미지 */}
+                      <div className="w-20 h-20 bg-gray-100 rounded relative overflow-hidden flex-shrink-0">
+                        {orderItem.product_image_url ? (
+                          <Image
+                            src={orderItem.product_image_url}
+                            alt={item.product_name}
+                            fill
+                            className="object-cover"
+                            sizes="80px"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">
+                            이미지 없음
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* 상품 정보 */}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-base mb-1 hover:text-primary transition-colors">
+                          {item.product_name}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {formatPrice(item.product_price)} × {item.quantity}개
+                        </p>
+                      </div>
+                      
+                      {/* 소계 */}
+                      <div className="text-right">
+                        <p className="font-semibold text-lg">
+                          {formatPrice(item.subtotal)}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
