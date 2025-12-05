@@ -46,6 +46,8 @@ export function PaymentWidget({
     }
 
     try {
+      // Toss Payments는 리다이렉트 방식으로 동작합니다.
+      // 결제 성공/실패는 successUrl/failUrl로 리다이렉트됩니다.
       paymentWidgetRef.current
         .requestPayment("카드", {
           amount,
@@ -56,8 +58,9 @@ export function PaymentWidget({
           failUrl: `${window.location.origin}/payment/${orderId}/fail`,
         })
         .then((response: any) => {
-          // 결제 성공
-          if (response.paymentKey) {
+          // 주의: Toss Payments는 리다이렉트를 수행하므로 이 블록은 일반적으로 실행되지 않습니다.
+          // 하지만 일부 경우(예: 팝업 방식)에는 실행될 수 있으므로 유지합니다.
+          if (response?.paymentKey) {
             onSuccess(response.paymentKey);
           }
         })

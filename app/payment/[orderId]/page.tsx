@@ -36,6 +36,7 @@ export default function PaymentPage() {
   const fetchOrder = async () => {
     try {
       setLoading(true);
+      setError(null);
       const { data, error } = await supabase
         .from("orders")
         .select(`
@@ -52,13 +53,31 @@ export default function PaymentPage() {
         throw new Error("주문을 찾을 수 없습니다.");
       }
 
-      if (data.status !== "pending") {
-        // 이미 결제 완료된 주문은 주문 상세로 이동
+      // 이미 결제 완료된 주문 처리
+      if (data.status === "paid") {
+        // 결제 완료된 주문은 주문 상세로 이동
         router.push(`/my/orders/${orderId}`);
         return;
       }
 
-      setOrder(data as OrderWithItems);
+      // 취소된 주문 처리
+      if (data.status === "cancelled") {
+        setError("이 주문은 취소되었습니다.");
+        return;
+      }
+
+      // 완료된 주문 처리
+      if (data.status === "completed") {
+        router.push(`/my/orders/${orderId}`);
+        return;
+      }
+
+      // pending 상태인 주문만 결제 진행
+      if (data.status === "pending") {
+        setOrder(data as OrderWithItems);
+      } else {
+        throw new Error("결제할 수 없는 주문 상태입니다.");
+      }
     } catch (err: any) {
       console.error("Error fetching order:", err);
       setError(err.message || "주문 정보를 불러오는데 실패했습니다.");
@@ -100,7 +119,14 @@ export default function PaymentPage() {
           <p className="text-red-500 text-lg mb-4">
             {error || "주문을 찾을 수 없습니다."}
           </p>
-          <Button onClick={() => router.push("/cart")}>장바구니로 돌아가기</Button>
+          <div className="flex gap-4 justify-center">
+            {orderId && (
+              <Button variant="outline" onClick={() => router.push(`/my/orders/${orderId}`)}>
+                주문 확인하기
+              </Button>
+            )}
+            <Button onClick={() => router.push("/cart")}>장바구니로 돌아가기</Button>
+          </div>
         </div>
       </div>
     );
