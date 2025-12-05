@@ -133,15 +133,14 @@ export default function PaymentPage() {
           onRetry={fetchOrder}
           retryLabel="다시 시도"
         />
-          <div className="flex gap-4 justify-center mt-4">
-            {orderId && (
-              <Button variant="outline" onClick={() => router.push(`/my/orders/${orderId}`)}>
-                주문 확인하기
-              </Button>
-            )}
-            <Button onClick={() => router.push("/cart")}>장바구니로 돌아가기</Button>
-          </div>
-        </ErrorState>
+        <div className="flex gap-4 justify-center mt-4">
+          {orderId && (
+            <Button variant="outline" onClick={() => router.push(`/my/orders/${orderId}`)}>
+              주문 확인하기
+            </Button>
+          )}
+          <Button onClick={() => router.push("/cart")}>장바구니로 돌아가기</Button>
+        </div>
       </div>
     );
   }
