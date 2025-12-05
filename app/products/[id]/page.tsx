@@ -60,7 +60,9 @@ export default async function ProductDetailPage({
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-              이미지 없음
+              <span className="text-4xl font-normal text-primary" style={{ fontFamily: "var(--font-great-vibes)" }}>
+                V
+              </span>
             </div>
           )}
         </div>

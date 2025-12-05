@@ -115,7 +115,7 @@ export function ProductGrid({
   };
 
   return (
-    <div className={`grid ${getGridCols()} gap-6`}>
+    <div className={`grid ${getGridCols()} gap-6 items-stretch`}>
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

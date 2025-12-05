@@ -35,10 +35,10 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.id}`}
-      className="group block"
+      className="group block h-full"
       aria-label={`${product.name} 상품 상세 보기`}
     >
-      <div className="border border-border rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] dark:hover:neon-glow hover:shadow-2xl bg-card group/card">
+      <div className="border-2 border-border rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] dark:hover:neon-glow dark:hover:animate-neon-flow dark:hover:border-primary dark:hover:border-[3px] hover:shadow-2xl bg-card group/card h-full flex flex-col">
         {/* 상품 이미지 */}
         <div className="aspect-square bg-gradient-to-br from-muted to-muted/50 relative overflow-hidden">
           {/* 호버 시 오버레이 */}
@@ -55,11 +55,10 @@ export function ProductCard({ product }: ProductCardProps) {
               onError={() => setImageError(true)}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-gradient-to-br from-muted to-muted/50">
-              <div className="text-center">
-                <div className="text-4xl mb-2">📦</div>
-                <div className="text-sm">이미지 없음</div>
-              </div>
+            <div className="w-full h-full flex items-center justify-center text-primary bg-gradient-to-br from-muted to-muted/50 dark:group-hover/card:bg-gradient-to-br dark:group-hover/card:from-primary/10 dark:group-hover/card:to-accent/10 transition-all duration-300">
+              <span className="text-6xl font-normal dark:group-hover/card:drop-shadow-[0_0_10px_oklch(0.7_0.3_200),0_0_20px_oklch(0.7_0.3_200),0_0_30px_oklch(0.7_0.3_200)] dark:group-hover/card:animate-neon-glow-flow transition-all duration-300" style={{ fontFamily: "var(--font-great-vibes)" }}>
+                V
+              </span>
             </div>
           )}
           
@@ -72,16 +71,16 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* 상품 정보 */}
-        <div className="p-5 space-y-2">
+        <div className="p-5 space-y-2 flex-1 flex flex-col">
           {product.category && (
             <p className="text-xs font-medium text-primary uppercase tracking-wider">
               {product.category.name}
             </p>
           )}
-          <h3 className="font-bold text-lg line-clamp-2 text-foreground group-hover:text-primary transition-colors duration-300 min-h-[3rem]">
+          <h3 className="font-bold text-lg line-clamp-2 text-foreground group-hover:text-primary transition-colors duration-300 flex-1">
             {product.name}
           </h3>
-          <div className="flex items-baseline justify-between pt-2">
+          <div className="flex items-baseline justify-between pt-2 mt-auto">
             <p className="text-2xl font-bold text-primary">
               {formatPrice(product.price)}
             </p>

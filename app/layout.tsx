@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Geist, Geist_Mono, Great_Vibes } from "next/font/google";
+import { Geist, Geist_Mono, Great_Vibes, Jua } from "next/font/google";
 
 import Navbar from "@/components/Navbar";
 import { SyncUserProvider } from "@/components/providers/sync-user-provider";
@@ -20,6 +20,12 @@ const geistMono = Geist_Mono({
 
 const greatVibes = Great_Vibes({
   variable: "--font-great-vibes",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const jua = Jua({
+  variable: "--font-jua",
   subsets: ["latin"],
   weight: ["400"],
 });
@@ -101,7 +107,7 @@ export default function RootLayout({
     <ClerkProvider localization={currentLocalization}>
       <html lang="ko" suppressHydrationWarning>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} ${greatVibes.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${greatVibes.variable} ${jua.variable} antialiased`}
         >
           <ThemeProvider
             attribute="class"

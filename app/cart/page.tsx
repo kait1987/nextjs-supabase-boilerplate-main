@@ -178,7 +178,9 @@ export default function CartPage() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">
-                        이미지 없음
+                        <span className="text-2xl font-normal text-primary" style={{ fontFamily: "var(--font-great-vibes)" }}>
+                          V
+                        </span>
                       </div>
                     )}
                   </div>

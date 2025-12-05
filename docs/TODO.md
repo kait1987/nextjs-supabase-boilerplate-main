@@ -95,4 +95,3 @@
   - [x] `eslint.config.mjs` / 포맷터 설정 확정
   - [x] 아이콘/OG 이미지/파비콘 추가 (`public/`)
   - [x] SEO 관련 파일 (`robots.ts`, `sitemap.ts`, `manifest.ts`)
-p
