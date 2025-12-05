@@ -12,8 +12,11 @@
  * - @/types/database: ProductWithCategory 타입
  */
 
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { formatPrice } from "@/lib/utils/format";
 import { ProductWithCategory } from "@/types/database";
 
@@ -27,46 +30,67 @@ interface ProductCardProps {
  * @param product - 상품 정보 (카테고리 포함)
  */
 export function ProductCard({ product }: ProductCardProps) {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <Link
       href={`/products/${product.id}`}
       className="group block"
       aria-label={`${product.name} 상품 상세 보기`}
     >
-      <div className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+      <div className="border border-border rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] dark:hover:neon-glow hover:shadow-2xl bg-card group/card">
         {/* 상품 이미지 */}
-        <div className="aspect-square bg-gray-100 relative overflow-hidden">
-          {product.image_url ? (
+        <div className="aspect-square bg-gradient-to-br from-muted to-muted/50 relative overflow-hidden">
+          {/* 호버 시 오버레이 */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-10"></div>
+          
+          {product.image_url && !imageError ? (
             <Image
               src={product.image_url}
               alt={product.name}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              unoptimized={product.image_url.startsWith("http")}
+              onError={() => setImageError(true)}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-              이미지 없음
+            <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-gradient-to-br from-muted to-muted/50">
+              <div className="text-center">
+                <div className="text-4xl mb-2">📦</div>
+                <div className="text-sm">이미지 없음</div>
+              </div>
+            </div>
+          )}
+          
+          {/* 품절 배지 */}
+          {product.stock <= 0 && (
+            <div className="absolute top-3 right-3 bg-destructive text-destructive-foreground px-3 py-1 rounded-full text-xs font-semibold z-20">
+              품절
             </div>
           )}
         </div>
 
         {/* 상품 정보 */}
-        <div className="p-4">
-          <h3 className="font-semibold text-lg mb-2 line-clamp-2 text-foreground">
-            {product.name}
-          </h3>
+        <div className="p-5 space-y-2">
           {product.category && (
-            <p className="text-sm text-muted-foreground mb-2">
+            <p className="text-xs font-medium text-primary uppercase tracking-wider">
               {product.category.name}
             </p>
           )}
-          <p className="text-xl font-bold text-primary">
-            {formatPrice(product.price)}
-          </p>
-          {product.stock <= 0 && (
-            <p className="text-sm text-red-500 mt-2">품절</p>
-          )}
+          <h3 className="font-bold text-lg line-clamp-2 text-foreground group-hover:text-primary transition-colors duration-300 min-h-[3rem]">
+            {product.name}
+          </h3>
+          <div className="flex items-baseline justify-between pt-2">
+            <p className="text-2xl font-bold text-primary">
+              {formatPrice(product.price)}
+            </p>
+            {product.stock > 0 && (
+              <span className="text-xs text-muted-foreground">
+                재고 {product.stock}개
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </Link>

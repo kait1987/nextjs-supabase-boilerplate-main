@@ -40,11 +40,13 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80 shadow-sm">
         <div className="container flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-2xl font-bold" aria-label="홈페이지로 이동">
-              의류 쇼핑몰
+            <Link href="/" className="flex items-center group" aria-label="홈페이지로 이동">
+              <span className="text-2xl font-normal tracking-normal bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient lowercase" style={{ fontFamily: "var(--font-kalam)" }}>
+                velvet
+              </span>
             </Link>
             <nav className="hidden md:flex gap-6" aria-label="주요 네비게이션">
               <Link

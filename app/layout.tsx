@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Kalam } from "next/font/google";
 
 import Navbar from "@/components/Navbar";
 import { SyncUserProvider } from "@/components/providers/sync-user-provider";
@@ -18,19 +18,25 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const kalam = Kalam({
+  variable: "--font-kalam",
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com"
   ),
   title: {
-    default: "의류 쇼핑몰",
-    template: "%s | 의류 쇼핑몰",
+    default: "VELVET",
+    template: "%s | VELVET",
   },
   description: "트렌디한 의류를 만나보세요. 다양한 스타일의 상의, 하의, 액세서리를 제공합니다.",
   keywords: ["의류", "쇼핑몰", "패션", "옷", "온라인 쇼핑"],
-  authors: [{ name: "의류 쇼핑몰" }],
-  creator: "의류 쇼핑몰",
-  publisher: "의류 쇼핑몰",
+  authors: [{ name: "VELVET" }],
+  creator: "VELVET",
+  publisher: "VELVET",
   formatDetection: {
     email: false,
     address: false,
@@ -40,21 +46,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ko_KR",
     url: "/",
-    siteName: "의류 쇼핑몰",
-    title: "의류 쇼핑몰",
+    siteName: "VELVET",
+    title: "VELVET",
     description: "트렌디한 의류를 만나보세요. 다양한 스타일의 상의, 하의, 액세서리를 제공합니다.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "의류 쇼핑몰",
+        alt: "VELVET",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "의류 쇼핑몰",
+    title: "VELVET",
     description: "트렌디한 의류를 만나보세요. 다양한 스타일의 상의, 하의, 액세서리를 제공합니다.",
     images: ["/og-image.png"],
   },
@@ -95,7 +101,7 @@ export default function RootLayout({
     <ClerkProvider localization={currentLocalization}>
       <html lang="ko" suppressHydrationWarning>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${kalam.variable} antialiased`}
         >
           <ThemeProvider
             attribute="class"

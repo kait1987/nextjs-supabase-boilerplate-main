@@ -8,7 +8,7 @@ import { MetadataRoute } from "next";
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "의류 쇼핑몰",
+    name: "VELVET",
     short_name: "쇼핑몰",
     description: "트렌디한 의류를 만나보세요",
     start_url: "/",

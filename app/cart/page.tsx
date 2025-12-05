@@ -170,6 +170,11 @@ export default function CartPage() {
                         alt={item.product.name}
                         fill
                         className="object-cover"
+                        unoptimized={item.product.image_url.startsWith("http")}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = "none";
+                        }}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">

@@ -258,6 +258,11 @@ export default function OrderDetailPage() {
                             fill
                             className="object-cover"
                             sizes="80px"
+                            unoptimized={orderItem.product_image_url.startsWith("http")}
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = "none";
+                            }}
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">

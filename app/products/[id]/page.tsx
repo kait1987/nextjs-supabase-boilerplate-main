@@ -56,6 +56,7 @@ export default async function ProductDetailPage({
               fill
               className="object-cover"
               priority
+              unoptimized={productWithCategory.image_url.startsWith("http")}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-muted-foreground">

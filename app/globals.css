@@ -45,71 +45,73 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  /* 이미지 기반 깔끔한 모던 디자인 - 라이트 모드 */
+  --background: oklch(1 0 0); /* 순수 흰색 배경 */
+  --foreground: oklch(0.15 0 0); /* 진한 검은색 텍스트 */
+  --card: oklch(1 0 0); /* 흰색 카드 */
+  --card-foreground: oklch(0.15 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --popover-foreground: oklch(0.15 0 0);
+  --primary: oklch(0.5 0.25 20); /* 빨간색 액센트 (이미지의 CAMPER 로고 색상) */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.97 0 0); /* 매우 밝은 회색 */
+  --secondary-foreground: oklch(0.15 0 0);
+  --muted: oklch(0.96 0 0); /* 밝은 회색 배경 */
+  --muted-foreground: oklch(0.5 0 0); /* 중간 회색 텍스트 */
+  --accent: oklch(0.5 0.25 20); /* 빨간색 액센트 */
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.55 0.25 20); /* 빨간색 */
+  --border: oklch(0.9 0 0); /* 연한 회색 보더 */
+  --input: oklch(0.95 0 0); /* 입력 필드 배경 */
+  --ring: oklch(0.5 0.25 20); /* 포커스 링 */
+  --chart-1: oklch(0.5 0.25 20); /* 빨간색 */
+  --chart-2: oklch(0.6 0.15 200); /* 파란색 */
+  --chart-3: oklch(0.65 0.2 150); /* 초록색 */
+  --chart-4: oklch(0.7 0.2 60); /* 노란색 */
+  --chart-5: oklch(0.6 0.2 300); /* 보라색 */
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0.15 0 0);
+  --sidebar-primary: oklch(0.5 0.25 20);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.96 0 0);
+  --sidebar-accent-foreground: oklch(0.15 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0.5 0.25 20);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* 깔끔한 모던 디자인 베이스 + 사이버펑크 융합 - 다크 모드 */
+  --background: oklch(0.12 0.05 280); /* 어두운 보라색 배경 (사이버펑크) */
+  --foreground: oklch(0.95 0.15 320); /* 밝은 핑크 화이트 텍스트 (사이버펑크) */
+  --card: oklch(0.18 0.08 280); /* 어두운 보라색 카드 (사이버펑크) */
+  --card-foreground: oklch(0.95 0.15 320);
+  --popover: oklch(0.18 0.08 280);
+  --popover-foreground: oklch(0.95 0.15 320);
+  --primary: oklch(0.7 0.3 200); /* 네온 그린 (사이버펑크) - 기본 빨간색 대신 */
+  --primary-foreground: oklch(0.1 0.05 280);
+  --secondary: oklch(0.22 0.12 280); /* 보라색 계열 (사이버펑크) */
+  --secondary-foreground: oklch(0.95 0.15 320);
+  --muted: oklch(0.2 0.1 280); /* 어두운 보라색 배경 */
+  --muted-foreground: oklch(0.65 0.15 320); /* 핑크 계열 텍스트 */
+  --accent: oklch(0.75 0.35 320); /* 밝은 핑크 (사이버펑크) */
+  --accent-foreground: oklch(0.1 0.05 280);
+  --destructive: oklch(0.65 0.3 20); /* 오렌지 레드 */
+  --border: oklch(0.3 0.2 280); /* 보라색 네온 보더 (사이버펑크) */
+  --input: oklch(0.2 0.12 280); /* 어두운 보라색 입력 필드 */
+  --ring: oklch(0.7 0.3 200); /* 네온 그린 포커스 링 */
+  --chart-1: oklch(0.7 0.3 200); /* 그린 */
+  --chart-2: oklch(0.75 0.35 320); /* 핑크 */
+  --chart-3: oklch(0.7 0.3 240); /* 블루 */
+  --chart-4: oklch(0.7 0.3 30); /* 오렌지 */
+  --chart-5: oklch(0.7 0.3 280); /* 퍼플 */
+  --sidebar: oklch(0.15 0.08 280);
+  --sidebar-foreground: oklch(0.95 0.15 320);
+  --sidebar-primary: oklch(0.7 0.3 200);
+  --sidebar-primary-foreground: oklch(0.1 0.05 280);
+  --sidebar-accent: oklch(0.22 0.12 280);
+  --sidebar-accent-foreground: oklch(0.95 0.15 320);
+  --sidebar-border: oklch(0.3 0.2 280);
+  --sidebar-ring: oklch(0.7 0.3 200);
 }
 
 @layer base {
@@ -118,8 +120,100 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* 깔끔한 모던 디자인 - 미묘한 패턴 추가 */
+    background-image: 
+      radial-gradient(circle at 1px 1px, oklch(0.5 0 0 / 0.02) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+  
+  .dark body {
+    /* 다크 모드: 깔끔한 베이스 + 사이버펑크 그라데이션 융합 */
+    background-image: 
+      radial-gradient(circle at 20% 30%, oklch(0.25 0.25 320 / 0.25) 0%, transparent 60%),
+      radial-gradient(circle at 80% 70%, oklch(0.3 0.25 30 / 0.2) 0%, transparent 60%),
+      radial-gradient(circle at 50% 50%, oklch(0.2 0.2 280 / 0.15) 0%, transparent 70%),
+      linear-gradient(180deg, oklch(0.12 0.05 280) 0%, oklch(0.1 0.05 280) 100%);
+    background-attachment: fixed;
+    background-size: 100% 100%;
   }
   main {
     @apply max-w-7xl mx-auto pt-16 px-4;
+  }
+}
+
+/* 사이버펑크 네온 효과 */
+@layer utilities {
+  .neon-green {
+    /* 이미지의 녹색 네온 사인 */
+    box-shadow: 
+      0 0 5px oklch(0.75 0.3 200),
+      0 0 10px oklch(0.75 0.3 200),
+      0 0 20px oklch(0.75 0.3 200),
+      0 0 30px oklch(0.75 0.3 200);
+  }
+  
+  .neon-pink {
+    /* 이미지의 핑크 네온 */
+    box-shadow: 
+      0 0 5px oklch(0.8 0.35 320),
+      0 0 10px oklch(0.8 0.35 320),
+      0 0 20px oklch(0.8 0.35 320),
+      0 0 30px oklch(0.8 0.35 320);
+  }
+  
+  .neon-blue {
+    /* 이미지의 파란색 네온 */
+    box-shadow: 
+      0 0 5px oklch(0.75 0.3 240),
+      0 0 10px oklch(0.75 0.3 240),
+      0 0 20px oklch(0.75 0.3 240),
+      0 0 30px oklch(0.75 0.3 240);
+  }
+  
+  .neon-purple {
+    /* 이미지의 보라색 네온 */
+    box-shadow: 
+      0 0 5px oklch(0.75 0.3 280),
+      0 0 10px oklch(0.75 0.3 280),
+      0 0 20px oklch(0.75 0.3 280),
+      0 0 30px oklch(0.75 0.3 280);
+  }
+  
+  .neon-glow {
+    /* 이미지의 멀티 컬러 네온 효과 (그린 + 핑크 + 블루) */
+    box-shadow: 
+      0 0 5px oklch(0.75 0.3 200),
+      0 0 10px oklch(0.8 0.35 320),
+      0 0 20px oklch(0.75 0.3 240),
+      0 0 30px oklch(0.75 0.3 280),
+      0 0 40px oklch(0.8 0.35 320);
+  }
+  
+  @keyframes gradient {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+  
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+  }
+  
+  .animate-gradient {
+    animation: gradient 3s ease infinite;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
   }
 }
