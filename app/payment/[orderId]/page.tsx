@@ -132,7 +132,7 @@ export default function PaymentPage() {
           message={error || "주문을 찾을 수 없습니다."}
           onRetry={fetchOrder}
           retryLabel="다시 시도"
-        >
+        />
           <div className="flex gap-4 justify-center mt-4">
             {orderId && (
               <Button variant="outline" onClick={() => router.push(`/my/orders/${orderId}`)}>
