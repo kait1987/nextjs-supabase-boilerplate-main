@@ -44,8 +44,8 @@ const Navbar = () => {
         <div className="container flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center group" aria-label="홈페이지로 이동">
-              <span className="text-2xl font-normal tracking-normal bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient lowercase" style={{ fontFamily: "var(--font-kalam)" }}>
-                velvet
+              <span className="text-4xl font-normal tracking-wider bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient" style={{ fontFamily: "var(--font-great-vibes)", letterSpacing: "0.1em", textTransform: "capitalize" }}>
+                Velvet
               </span>
             </Link>
             <nav className="hidden md:flex gap-6" aria-label="주요 네비게이션">
